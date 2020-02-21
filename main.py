@@ -66,9 +66,9 @@ try:
                         # # b2 = business[1].text ####(b2 me about business ka dosra part he agar lagana ho tu uncomment kar de warna hata de)####
                         # about_business = b1  # +b2
                         #######
-                        qna = Single_item_page.find.find_All("section", {
+                        qna = Single_item_page.find("section", {
                             "class": "lemon--section__373c0__fNwDM u-space-t4 u-padding-t4 border--top__373c0__19Owr border-color--default__373c0__2oFDT"})
-                        QnA_field = qna[4].div.ul.find_All("div", {
+                        QnA_field = qna[4].div.ul.findall("div", {
                             "class": "lemon--div__373c0__1mboc arrange-unit__373c0__1piwO arrange-unit-fill__373c0__17z0h border-color--default__373c0__2oFDT"})
                         q1 = QnA_field[0].text
                         a1 = QnA_field[1].text
@@ -114,7 +114,7 @@ try:
                             working_days_and_hours[days] = hours
                         # appending all values in a list name rows to write in csv at once
                         rows.append(
-                            [title, address, site, contact_number, about_business, amneties, working_days_and_hours,
+                            [title, address, site, contact_number, amneties, working_days_and_hours,
                              QnA])
                     else:
                         pass
