@@ -13,7 +13,8 @@ try:
         file = open(category + ".csv", 'a')
         writer = csv.writer(file)
         # appending first row for column names
-        rows.append(['Title', 'Address', 'Site', 'Contact_number', 'About_business', 'Amneties', 'Working_hours', 'QnA'])
+        rows.append(
+            ['Title', 'Address', 'Site', 'Contact_number', 'About_business', 'Amneties', 'Working_hours', 'QnA'])
         main_page_url = 'https://www.yelp.com/search?find_desc=' + category + '&find_loc=New+York%2C+NY%2C+US'
         response = get(main_page_url)
         Main_Page = BeautifulSoup(response.text, 'html.parser')
@@ -30,7 +31,7 @@ try:
                 response = get(main_page_url)
                 Main_Page = BeautifulSoup(response.text, 'html.parser')
 
-            All_items = Main_Page.findAll("div", {
+            All_items = Main_Page.find_all("div", {
                 "class": "lemon--div__373c0__1mboc container__373c0__ZB8u4 hoverable__373c0__3CcYQ margin-t3__373c0__1l90z margin-b3__373c0__q1DuY padding-t3__373c0__1gw9E padding-r3__373c0__57InZ padding-b3__373c0__342DA padding-l3__373c0__1scQ0 border--top__373c0__3gXLy border--right__373c0__1n3Iv border--bottom__373c0__3qNtD border--left__373c0__d1B7K border-color--default__373c0__3-ifU"})
             for item in All_items:
                 # added try catch because if the single items fails due to any reason then the whole execution will continue
@@ -54,26 +55,26 @@ try:
                         else:
                             site = ''
                         ################################################ ALEEM CODE ##################################
-                        contact_number = info.find("p",{
-                            "class":"lemon--p__373c0__3Qnnj text__373c0__2pB8f text-color--normal__373c0__K_MKN text-align--left__373c0__2pnx_"}).text
+                        contact_number = info.find("p", {
+                            "class": "lemon--p__373c0__3Qnnj text__373c0__2pB8f text-color--normal__373c0__K_MKN text-align--left__373c0__2pnx_"}).text
                         #######
-                        business = Single_item_page.findAll("section",{
-                            "class":"lemon--section__373c0__fNwDM u-space-t4 u-padding-t4 border--top__373c0__19Owr border-color--default__373c0__2oFDT"})
-                        business = business[3]
-                        business = business.findAll("span")
-                        b1 = business[0].text
-                        # b2 = business[1].text ####(b2 me about business ka dosra part he agar lagana ho tu uncomment kar de warna hata de)####
-                        about_business = b1#+b2
+                        # business = Single_item_page.find_All("section", {
+                        #     "class": "lemon--section__373c0__fNwDM u-space-t4 u-padding-t4 border--top__373c0__19Owr border-color--default__373c0__2oFDT"})
+                        # business = business[3]
+                        # business = business.find_All("span")
+                        # b1 = business[0].text
+                        # # b2 = business[1].text ####(b2 me about business ka dosra part he agar lagana ho tu uncomment kar de warna hata de)####
+                        # about_business = b1  # +b2
                         #######
-                        qna = Single_item_page.find.findAll("section",{
-                            "class":"lemon--section__373c0__fNwDM u-space-t4 u-padding-t4 border--top__373c0__19Owr border-color--default__373c0__2oFDT"})
-                        QnA_field = qna[4].div.ul.findAll("div",{
-                            "class":"lemon--div__373c0__1mboc arrange-unit__373c0__1piwO arrange-unit-fill__373c0__17z0h border-color--default__373c0__2oFDT"})
+                        qna = Single_item_page.find.find_All("section", {
+                            "class": "lemon--section__373c0__fNwDM u-space-t4 u-padding-t4 border--top__373c0__19Owr border-color--default__373c0__2oFDT"})
+                        QnA_field = qna[4].div.ul.find_All("div", {
+                            "class": "lemon--div__373c0__1mboc arrange-unit__373c0__1piwO arrange-unit-fill__373c0__17z0h border-color--default__373c0__2oFDT"})
                         q1 = QnA_field[0].text
                         a1 = QnA_field[1].text
                         q2 = QnA_field[2].text
                         a2 = QnA_field[3].text
-                        QnA = {"Q1 : ":q1 ,"A1 : ":a1,"Q2 : ":q2,"A2 : ":a2}
+                        QnA = {"Q1 : ": q1, "A1 : ": a1, "Q2 : ": q2, "A2 : ": a2}
                         ##################################################          ###################################
 
                         # fetching whole amenities card
@@ -112,13 +113,15 @@ try:
                             # Making a dictionary for all week days and hours
                             working_days_and_hours[days] = hours
                         # appending all values in a list name rows to write in csv at once
-                        rows.append([title, address, site, contact_number, about_business, amneties, working_days_and_hours, QnA])
+                        rows.append(
+                            [title, address, site, contact_number, about_business, amneties, working_days_and_hours,
+                             QnA])
                     else:
                         pass
                 except Exception as e:
                     print(e.__str__())
                     pass
-        # writing file when first iteration is completed
+
         writer.writerows(rows)
 except Exception as e:
     print(e.__str__())
